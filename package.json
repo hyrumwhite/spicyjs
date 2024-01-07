@@ -1,0 +1,17 @@
+{
+	"name": "@spicyjs/dom",
+	"version": "0.0.1",
+	"description": "DOM creation library to add a pinch of spice to your webapps",
+	"main": "src/index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"spicy",
+		"createElement",
+		"lightweight",
+		"small"
+	],
+	"author": "hyrumwhite",
+	"license": "MIT"
+}
