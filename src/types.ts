@@ -13,7 +13,10 @@ export type Events = {
 		| ((ev: HTMLElementEventMap[K]) => any);
 };
 type Elements = HTMLElementTagNameMap;
-export type SpicyElementParams<T extends HTMLElement> = SpicyElementProps<T> &
+export type SpicyElementParams<T extends HTMLElement> = Omit<
+	SpicyElementProps<T>,
+	"click" | "focus" | "blur"
+> &
 	SpicyElementAttributes &
 	Events;
 
@@ -28,17 +31,3 @@ export type ElementProxyFunctions = {
 		)[]
 	) => Elements[k];
 };
-
-// export type ElementProxyFunctions = {
-// 	[k in keyof Elements]: (
-// 		...parameters: SpicyParams<Elements[k]>
-// 	) => Elements[k];
-// };
-
-// export type ElementProps =
-// 	| HTMLElement
-// 	| Text
-// 	| (HTMLElement | Text)[]
-// 	| string
-// 	| number
-// 	| Record<string, unknown>;

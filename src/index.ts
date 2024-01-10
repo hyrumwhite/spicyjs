@@ -4,11 +4,17 @@ import type {
 	ElementChild,
 	ElementProxyFunctions,
 } from "./types";
-
+type Props<T extends HTMLElement> = (
+	| SpicyElementParams<T>
+	| ElementChild
+	| ElementChild[]
+)[];
+type Prop = Props[number];
 const handleElementProps = <T extends HTMLElement>(
 	el: HTMLElement,
-	prop: ElementChild | ElementChild[] | SpicyElementParams<T>
+	prop: Prop
 ) => {
+	const addListener = el.addEventListener;
 	if (prop instanceof HTMLElement || prop instanceof Text) {
 		el.append(prop);
 	} else if (prop instanceof Array) {
@@ -22,9 +28,9 @@ const handleElementProps = <T extends HTMLElement>(
 			//@ts-ignore
 			const value = elementParams[key];
 			if (typeof value === "function") {
-				el.addEventListener(key, value);
+				addListener(key, value);
 			} else if (typeof value === "object" && "handler" in value) {
-				el.addEventListener(key, value.handler, value.options);
+				addListener(key, value.handler, value.options);
 			} else if (key in el) {
 				if (key === "style") {
 					Object.assign(el.style, value);
@@ -39,10 +45,7 @@ const handleElementProps = <T extends HTMLElement>(
 		}
 	}
 };
-export function updateElement<T extends HTMLElement>(
-	el: T,
-	...props: (SpicyElementParams<T> | ElementChild | ElementChild[])[]
-) {
+export function updateElement<T extends HTMLElement>(el: T, ...props: Props) {
 	for (const prop of props) {
 		handleElementProps(el, prop);
 	}
@@ -51,7 +54,7 @@ export function updateElement<T extends HTMLElement>(
 
 export const createElement = <T extends string>(
 	tagName: T,
-	...props: ElementChild | ElementChild[] | SpicyElementParams<T>
+	...props: Props<HTMLElementTagNameMap[T]>
 ) => {
 	// This typing works, you can see the element types below, but TSC is unhappy about it.
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -62,15 +65,40 @@ export const createElement = <T extends string>(
 	return updateElement(el, ...props) as typeof el;
 };
 
-export const createSpecificElement =
+const createSpecificElement =
 	<T extends string>(tag: T) =>
-	(...props: ElementChild | ElementChild[] | SpicyElementParams<T>) =>
+	(...props: Props<T>) =>
 		createElement(tag, ...props);
 
-export default createSpecificElement;
+function createOrUpdateElement<T extends HTMLElement>(
+	element: T,
+	...props: Props<T>
+): T;
 
-export const spicy = new Proxy(createSpecificElement, {
+function createOrUpdateElement<T extends string>(
+	element: T,
+	...props: Props<HTMLElementTagNameMap[T]>
+): HTMLElementTagNameMap[T];
+
+function createOrUpdateElement(element, ...props) {
+	if (typeof element === "string") {
+		return createElement<T>(element, ...props);
+	} else if (element instanceof HTMLElement) {
+		return updateElement<T>(element, ...props);
+	}
+}
+type CreateOrUpdateElement = typeof createOrUpdateElement;
+
+const spicy = new Proxy(createOrUpdateElement, {
 	get: (_, tag) => createSpecificElement(tag),
-}) as unknown as ElementProxyFunctions;
+	apply(target, thisArg, args) {
+		return target.apply(thisArg, args);
+	},
+}) as unknown as CreateOrUpdateElement & ElementProxyFunctions;
+export default spicy;
 
-spicy.div("asdf", { click });
+// const asdf = spicy("a", {});
+// const qwer = spicy("div");
+// const zxcv = spicy(spicy("a"));
+// const { div, a } = spicy;
+// a({ href });
