@@ -45,7 +45,10 @@ const handleElementProps = <T extends HTMLElement>(
 		}
 	}
 };
-export function updateElement<T extends HTMLElement>(el: T, ...props: Props) {
+export function updateElement<T extends HTMLElement>(
+	el: T,
+	...props: Props<T>
+) {
 	for (const prop of props) {
 		handleElementProps(el, prop);
 	}
@@ -97,8 +100,8 @@ const spicy = new Proxy(createOrUpdateElement, {
 }) as unknown as CreateOrUpdateElement & ElementProxyFunctions;
 export default spicy;
 
-// const asdf = spicy("a", {});
+// const asdf = spicy("a", { href });
 // const qwer = spicy("div");
-// const zxcv = spicy(spicy("a"));
+// const zxcv = spicy(spicy("a"), { href });
 // const { div, a } = spicy;
 // a({ href });
