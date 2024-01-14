@@ -70,31 +70,26 @@ export const createElement = <T extends string>(
 
 const createSpecificElement =
 	<T extends string>(tag: T) =>
-	(...props: Props<T>) =>
+	(...props: Props<HTMLElementTagNameMap[T]>) =>
 		createElement(tag, ...props);
 
-function createOrUpdateElement<T extends HTMLElement>(
+function createOrUpdateElement<T extends string | HTMLElement>(
 	element: T,
-	...props: Props<T>
-): T;
-
-function createOrUpdateElement<T extends string>(
-	element: T,
-	...props: Props<HTMLElementTagNameMap[T]>
-): HTMLElementTagNameMap[T];
-
-function createOrUpdateElement(element, ...props) {
+	...props: Props<T extends string ? HTMLElementTagNameMap[T] : T>
+) {
 	if (typeof element === "string") {
-		return createElement<T>(element, ...props);
-	} else if (element instanceof HTMLElement) {
-		return updateElement<T>(element, ...props);
+		return createElement(element, ...props);
 	}
+	return updateElement(element, ...props);
 }
+
 type CreateOrUpdateElement = typeof createOrUpdateElement;
 
 const spicy = new Proxy(createOrUpdateElement, {
-	get: (_, tag) => createSpecificElement(tag),
+	get: (_, tag) => createSpecificElement(tag as string),
 	apply(target, thisArg, args) {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		//@ts-ignore
 		return target.apply(thisArg, args);
 	},
 }) as unknown as CreateOrUpdateElement & ElementProxyFunctions;
