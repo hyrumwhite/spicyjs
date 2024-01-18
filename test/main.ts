@@ -2,7 +2,8 @@ import spicyjs from "../src/index";
 
 const { div, span, a } = spicyjs;
 const thing = "asdf";
-const img = spicyjs("img", {});
+const img = spicyjs("img");
+const anchor = a();
 const app = document.getElementById("app");
 spicyjs(
 	app,

@@ -1,4 +1,5 @@
-//create a type for an object with string keys and values that can be strings, numbers, or event functions, the 'style' key specifically should be a CSSStyleDeclaration
+export type TagNameMap = HTMLElementTagNameMap;
+export type TagName = keyof TagNameMap;
 type SpicyElementProps<T extends HTMLElement> = { [K in keyof T]: T[K] };
 type SpicyElementAttributes = Record<
 	string,
@@ -13,14 +14,12 @@ export type Events = {
 		| ((ev: HTMLElementEventMap[K]) => any);
 };
 type Elements = HTMLElementTagNameMap;
-export type SpicyElementParams<T extends HTMLElement> = Omit<
-	SpicyElementProps<T>,
-	"click" | "focus" | "blur"
-> &
-	SpicyElementAttributes &
-	Events;
+export type SpicyElementParams<T extends HTMLElement> = Partial<Events> &
+	Partial<Omit<SpicyElementProps<T>, "click" | "focus" | "blur">> & {
+		[key: string]: any;
+	};
 
-export type ElementChild = HTMLElement | Text | String | Number;
+export type ElementChild = HTMLElement | Text | string;
 
 export type ElementProxyFunctions = {
 	[k in keyof Elements]: (
