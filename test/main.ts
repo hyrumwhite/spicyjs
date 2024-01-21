@@ -5,6 +5,7 @@ const thing = "asdf";
 const img = spicyjs("img");
 const anchor = a();
 const app = document.getElementById("app");
+const href = "https://google.com";
 spicyjs(
 	app,
 	{
@@ -13,5 +14,5 @@ spicyjs(
 		},
 	},
 	div`hey ${thing} worlds`,
-	a("testings", { href })
+	a("testings", { href }, "override")
 );
