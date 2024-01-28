@@ -1,19 +1,29 @@
 {
-	"name": "@spicyjs/create-element",
+	"name": "@spicyjs/core",
 	"private": true,
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"type": "module",
 	"types": "dist/types",
 	"main": "dist/index.js",
+	"sideeffects": false,
+	"keywords": [
+		"vanillajs",
+		"buildless",
+		"framework",
+		"createElement"
+	],
 	"files": [
 		"dist"
 	],
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"release": "vite build && tsc && commit-and-tag-version && npm publish"
 	},
 	"devDependencies": {
+		"commit-and-tag-version": "^12.2.0",
+		"terser": "^5.27.0",
 		"typescript": "^5.2.2",
 		"vite": "^5.0.8"
 	}
