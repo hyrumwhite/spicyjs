@@ -50,17 +50,14 @@ const handleElementProps = <T extends HTMLElement>(
 		}
 	}
 };
-export function updateElement<T extends HTMLElement>(
-	el: T,
-	...props: Props<T>
-) {
+function updateElement<T extends HTMLElement>(el: T, ...props: Props<T>) {
 	for (const prop of props) {
 		handleElementProps(el, prop);
 	}
 	return el;
 }
 
-export const createElement = <T extends TagName>(
+const createElement = <T extends TagName>(
 	tagName: T,
 	...props: Props<T extends TagName ? TagNameMap[T] : HTMLElement>
 ): T extends TagName ? TagNameMap[T] : HTMLElement => {
