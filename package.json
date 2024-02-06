@@ -1,7 +1,7 @@
 {
 	"name": "@spicyjs/core",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"type": "module",
 	"types": "dist/types",
 	"main": "dist/index.js",
@@ -13,7 +13,8 @@
 		"createElement"
 	],
 	"files": [
-		"dist"
+		"dist",
+		"README.md"
 	],
 	"scripts": {
 		"dev": "vite",
