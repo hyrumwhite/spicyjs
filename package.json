@@ -1,6 +1,5 @@
 {
 	"name": "@spicyjs/core",
-	"private": true,
 	"version": "0.0.2",
 	"type": "module",
 	"types": "dist/types",
@@ -24,7 +23,6 @@
 	},
 	"devDependencies": {
 		"commit-and-tag-version": "^12.2.0",
-		"terser": "^5.27.0",
 		"typescript": "^5.2.2",
 		"vite": "^5.0.8"
 	}
