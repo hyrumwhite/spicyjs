@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.3](https://github.com/hyrumwhite/spicyjs/compare/v0.0.2...v0.0.3) (2024-02-15)
+
+
+### Bug Fixes
+
+* remove unused dev dependency ([eb6ff8e](https://github.com/hyrumwhite/spicyjs/commit/eb6ff8ea357539d02c1795a5a9b253ea5dca50c6))
+
 ## [0.0.2](https://github.com/hyrumwhite/spicyjs/compare/v0.0.1...v0.0.2) (2024-02-06)
 
 ## 0.0.1 (2024-01-28)
