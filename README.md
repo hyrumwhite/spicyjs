@@ -1,12 +1,14 @@
 # SpicyJS
 
-Package is still under construction. The API won't change but tests will be added, types will be made more robust, etc.
+SpicyJS is a buildless microframework with a VanillaJS mental model that consists of a few tiny packages:
 
-SpicyJS is a lightweight, buildless JavaScript library that takes the pain out of creating and updating elements.
+- @spicyjs/core: a JS library that takes the pain out of creating, updating, and attaching listeners to elements. (~1kb uncompressed)
+- @spicyjs/reactor: a Reactive library that binds data to nodes (~1kb before gzip uncompressed)
+- @spicyjs/router: a lightweight router for SPA's (~2kb before gzip uncompressed)
 
 ## Why
 
-Vanilla JS is very attractive. If done correctly, its the fastest and lightest JS option. But, default apis for creating, modifying, and updating elements are clunky and difficult to read through. SpicyJS is a lightweight way to spice up VanillaJS without going too far off the deep end. The core and reactivity libraries are ~1kb each, and if you're like me, you'd probably end up creating something similar anyway in your Vanilla journey.
+Spice up your project with SpicyJS. A fully featured package suite that can be used to enhance static pages or to build full blown SPA's. Each package has zero dependencies and can be used without the others. Tired of the boilerplate around `document.createElement`? Grab `@spicyjs/core`. If you need a router for an SPA, grab `@spicyjs/router`. Need some reactivity? Grab `@spicyjs/reactor`. If you end up using them all, you'll only add ~4kb to your site.
 
 ## Installation
 
@@ -19,7 +21,7 @@ npm i @spicyjs/core
 ```js
 import spicy from "@spicyjs/core";
 const { div, button, h2, span } = spicy;
-//the default export also works as a function: spicy('table', {...options}, 'textContent'), etc
+//the default export also works as a function: spicy('header', {...options}, 'this is a header'), etc
 let display: HTMLSpanElement | null = null;
 let count = 0;
 
@@ -29,6 +31,7 @@ export const counter = () =>
 		h2("Counter"),
 		(display = span("count: 0")),
 		button("increment", {
+			type: "button",
 			click: () => (display.textContent = `count: ${++count}`),
 		})
 	);
@@ -103,9 +106,10 @@ const createList = menu
 const updateList = () => {
 	//this is not efficient, but gets the idea across
 	let newList = createList();
-	if (list && newList.length !== list.children.length) {
+	if (list) {
 		//illustrates how params are executed. First the html will be cleared, then the list appended
 		spicy(list, { innerHTML: "" }, newList);
+		//could also just do list.replaceWith(newList)
 	}
 };
 document.body.append(
@@ -123,14 +127,6 @@ npm i @spicyjs/reactor;
 Reactivity is Proxy based. You create a reactor by invoking the reactor function, similar to a Vue ref. The resulting variable is a function with a value property.
 
 If invoked as a function, a side effect is added. A side effect may be a text node, an HTMLElement, or a function.
-
-```ts
-type Reactor = (initialState: string | bool | number | (() => void)) => ((
-	effect: HTMLElement | Text | (() => void)
-) => effect) & {
-	value: typeof initialState | ReturnType<typeof initialState>;
-};
-```
 
 ```ts
 import spicy from "@spicyjs/core";
@@ -151,15 +147,6 @@ const fullName = reactor(() => `${firstName.value} ${lastName.value}`);
 //register side effect
 const effect = fullName(() => console.log("full name updated!"));
 
-// cleanup
-// fullname.removeEffect(effect);
-// OR
-// fullName.destroy();
-// lastName.destroy(); //etc
-// OR
-// import { meltdown } from @spicyjs/reactor;
-// meltdown(firstName, lastName, fullName);
-
 export const fullNameGenerator = () =>
 	div(
 		span(fullName()),
@@ -174,4 +161,13 @@ export const fullNameGenerator = () =>
 			input: ($event) => (lastName.value = $event.target.value),
 		})
 	);
+
+// cleanup
+// fullname.removeEffect(effect);
+// OR
+// fullName.destroy();
+// lastName.destroy(); //etc
+// OR
+// import { meltdown } from @spicyjs/reactor;
+// meltdown(firstName, lastName, fullName);
 ```

@@ -5,7 +5,7 @@ import type {
 	ElementChild,
 	ElementProxyFunctions,
 } from "./types";
-type Props<T extends HTMLElement> = (
+export type Props<T extends HTMLElement> = (
 	| SpicyElementParams<T>
 	| ElementChild
 	| ElementChild[]
@@ -17,7 +17,6 @@ const handleElementProps = <T extends HTMLElement>(
 	el: HTMLElement,
 	prop: Prop<T>
 ) => {
-	const addListener = el.addEventListener;
 	if (prop instanceof HTMLElement || prop instanceof Text) {
 		el.append(prop);
 	} else if (prop instanceof Array) {
@@ -31,11 +30,11 @@ const handleElementProps = <T extends HTMLElement>(
 			//@ts-ignore
 			const value = elementParams[key];
 			if (typeof value === "function") {
-				addListener(key, value);
+				el.addEventListener(key, value);
 			} else if (typeof value === "object" && "handler" in value) {
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				//@ts-ignore
-				addListener(key, value.handler, value.options);
+				el.addEventListener(key, value.handler, value.options);
 			} else if (key in el) {
 				if (key === "style") {
 					Object.assign(el.style, value);

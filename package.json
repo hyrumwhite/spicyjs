@@ -1,15 +1,18 @@
 {
 	"name": "@spicyjs/core",
-	"version": "0.0.4",
+	"version": "1.0.0",
 	"type": "module",
 	"types": "dist/types",
 	"main": "dist/index.js",
-	"sideeffects": false,
+	"exports": {
+		".": "./dist/index.js"
+	},
+	"sideEffects": false,
 	"keywords": [
 		"vanillajs",
 		"buildless",
 		"framework",
-		"createElement"
+		"microframework"
 	],
 	"files": [
 		"dist",
@@ -19,11 +22,14 @@
 		"dev": "vite",
 		"build": "tsc && vite build",
 		"preview": "vite preview",
-		"release": "vite build && tsc && commit-and-tag-version && npm publish"
+		"release": "vite build && tsc && commit-and-tag-version && npm publish",
+		"test": "vitest"
 	},
 	"devDependencies": {
 		"commit-and-tag-version": "^12.2.0",
 		"typescript": "^5.2.2",
-		"vite": "^5.0.8"
+		"vite": "^5.0.8",
+		"jsdom": "^24.0.0",
+		"vitest": "^1.4.0"
 	}
 }
