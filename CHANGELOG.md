@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.1.2](https://github.com/hyrumwhite/spicyjs/compare/v1.1.1...v1.1.2) (2024-03-20)
+
+
+### Bug Fixes
+
+* fix package json ([c70768d](https://github.com/hyrumwhite/spicyjs/commit/c70768db8091cfb3029706d8b30fe66e9743a15c))
+
 ## [1.1.1](https://github.com/hyrumwhite/spicyjs/compare/v1.1.0...v1.1.1) (2024-03-20)
 
 
