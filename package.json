@@ -5,7 +5,13 @@
 	"types": "dist/types",
 	"main": "dist/index.js",
 	"exports": {
-		".": "./dist/index.js"
+		".": {
+			"types": "./dist/types/index.d.ts",
+			"import": {
+				"node": "./dist/index.js",
+				"default": "./dist/index.js"
+			}
+		}
 	},
 	"sideEffects": false,
 	"keywords": [
@@ -22,7 +28,7 @@
 		"dev": "vite",
 		"build": "tsc && vite build",
 		"preview": "vite preview",
-		"release": "vite build && tsc && commit-and-tag-version && npm publish",
+		"release": "vite build && tsc && git add dist && commit-and-tag-version && npm publish",
 		"test": "vitest"
 	},
 	"devDependencies": {
