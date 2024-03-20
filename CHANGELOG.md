@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.1.0](https://github.com/hyrumwhite/spicyjs/compare/v0.0.4...v1.1.0) (2024-03-20)
+
+
+### Features
+
+* added dist dir for degit ([54a8158](https://github.com/hyrumwhite/spicyjs/commit/54a8158f14398f45d00b697f7a6c25229d5a875c))
+
+
+### Bug Fixes
+
+* event listeners ([d8ad61f](https://github.com/hyrumwhite/spicyjs/commit/d8ad61f7fd82cb074c184c0c953db1d4e35f07ce))
+
 ## [0.0.4](https://github.com/hyrumwhite/spicyjs/compare/v0.0.3...v0.0.4) (2024-02-16)
 
 ## [0.0.3](https://github.com/hyrumwhite/spicyjs/compare/v0.0.2...v0.0.3) (2024-02-15)
