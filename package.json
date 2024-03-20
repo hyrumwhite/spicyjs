@@ -4,6 +4,7 @@
 	"type": "module",
 	"types": "dist/types",
 	"main": "dist/index.js",
+	"module": "dist/index.js",
 	"exports": {
 		".": {
 			"types": "./dist/types/index.d.ts",
