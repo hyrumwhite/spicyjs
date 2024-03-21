@@ -2,7 +2,7 @@
 	"name": "@spicyjs/core",
 	"version": "1.1.2",
 	"type": "module",
-	"types": "dist/types",
+	"types": "dist/types/index.d.ts",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
 	"exports": {
