@@ -19,7 +19,7 @@ export type SpicyElementParams<T extends HTMLElement> = Partial<Events> &
 		[key: string]: any;
 	};
 
-export type ElementChild = HTMLElement | Text | string;
+export type ElementChild = Node | string;
 
 export type ElementProxyFunctions = {
 	[k in keyof Elements]: (

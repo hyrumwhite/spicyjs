@@ -13,7 +13,7 @@ type Elements = HTMLElementTagNameMap;
 export type SpicyElementParams<T extends HTMLElement> = Partial<Events> & Partial<Omit<SpicyElementProps<T>, "click" | "focus" | "blur">> & {
     [key: string]: any;
 };
-export type ElementChild = HTMLElement | Text | string;
+export type ElementChild = Node | string;
 export type ElementProxyFunctions = {
     [k in keyof Elements]: (...props: (SpicyElementParams<Elements[k]> | ElementChild | ElementChild[])[]) => Elements[k];
 };

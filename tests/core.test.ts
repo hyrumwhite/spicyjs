@@ -49,7 +49,6 @@ test("adds event listeners", () => {
 	expect(optionsEventHandler).toHaveBeenCalledOnce();
 	expect(myEventHandler).toHaveBeenCalled();
 });
-Events;
 test("appends children", () => {
 	const { div, span, button, form, input } = spicyjs;
 	let container: HTMLDivElement;
@@ -102,4 +101,10 @@ test("appends elements from arrays", () => {
 	expect(document.body.querySelectorAll("a").length).toEqual(3);
 	console.log(document.body.innerHTML);
 	expect(document.body.querySelectorAll("a")[2].textContent).toEqual("link3");
+});
+test("does not append falsey values", () => {
+	const { a } = spicyjs;
+	const links = ["link1", "link2", "link3"];
+	spicyjs(document.body, false, "");
+	expect(document.body.childNodes.length).toEqual(1);
 });

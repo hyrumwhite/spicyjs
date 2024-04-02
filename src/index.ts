@@ -17,13 +17,15 @@ const handleElementProps = <T extends HTMLElement>(
 	el: HTMLElement,
 	prop: Prop<T>
 ) => {
-	if (prop instanceof HTMLElement || prop instanceof Text) {
-		el.append(prop);
-	} else if (prop instanceof Array) {
+	if (prop instanceof Array) {
 		el.append(...prop);
 	} else if (typeof prop === "string" || typeof prop === "number") {
-		el.append(prop.toString());
-	} else if (typeof prop === "object" && prop != null) {
+		el.append(prop + "");
+	} else if (
+		!(prop instanceof Node) &&
+		typeof prop === "object" &&
+		prop != null
+	) {
 		const elementParams = prop as SpicyElementParams<T>;
 		for (const key of Object.keys(elementParams)) {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -47,6 +49,8 @@ const handleElementProps = <T extends HTMLElement>(
 				el.setAttribute(key, String(value));
 			}
 		}
+	} else if (prop) {
+		el.append(prop);
 	}
 };
 function updateElement<T extends HTMLElement>(el: T, ...props: Props<T>) {
