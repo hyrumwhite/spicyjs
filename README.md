@@ -128,6 +128,8 @@ Reactivity is Proxy based. You create a reactor by invoking the reactor function
 
 If invoked as a function, a side effect is added. A side effect may be a text node, an HTMLElement, or a function.
 
+Note that object and array require some special handling if accessed within their own effects.
+
 ```ts
 import spicy from "@spicyjs/core";
 import { reactor } from "@spicyjs/reactor";
@@ -143,6 +145,13 @@ export const counter = () =>
 const firstName = reactor("");
 const lastName = reactor("");
 const fullName = reactor(() => `${firstName.value} ${lastName.value}`);
+
+//Objects should be accessed inside their own effects with 'raw', do not update objects inside their own effects
+const people = reactor(["steve", "jeff", "ronald"]);
+people(() => {
+	const items = people.raw.map((person) => li(person));
+	//etc
+});
 
 //register side effect
 const effect = fullName(() => console.log("full name updated!"));
@@ -171,3 +180,5 @@ export const fullNameGenerator = () =>
 // import { meltdown } from @spicyjs/reactor;
 // meltdown(firstName, lastName, fullName);
 ```
+
+As noted in the example, to keep the package size small, object and array methods have not been enumerated and checked against inside reactors. Accessing array methods inside an effect will trigger a call stack exceeded error. To access objects inside their effects, refer to them with `.raw`.
