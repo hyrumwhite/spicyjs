@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.1.5](https://github.com/hyrumwhite/spicyjs/compare/v1.1.4...v1.1.5) (2024-05-03)
+
+
+### Bug Fixes
+
+* release dist ([30ee12f](https://github.com/hyrumwhite/spicyjs/commit/30ee12f93e8539764240a6f5b98f15bae166f577))
+* update readme and package.json ([e760e9e](https://github.com/hyrumwhite/spicyjs/commit/e760e9e4e7a764c975b64678a5f6b33c9376bdb1))
+
 ## [1.1.4](https://github.com/hyrumwhite/spicyjs/compare/v1.1.3...v1.1.4) (2024-04-02)
 
 
