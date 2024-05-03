@@ -2,9 +2,9 @@
 
 SpicyJS is a buildless microframework with a VanillaJS mental model that consists of a few tiny packages:
 
-- @spicyjs/core: a JS library that takes the pain out of creating, updating, and attaching listeners to elements. (~1kb uncompressed)
-- @spicyjs/reactor: a Reactive library that binds data to nodes (~1kb before gzip uncompressed)
-- @spicyjs/router: a lightweight router for SPA's (~2kb before gzip uncompressed)
+- @spicyjs/core: a JS library that takes the pain out of creating, updating, and attaching listeners to elements. (~1kb before gzip)
+- @spicyjs/reactor: a Reactive library that binds data to nodes (~1kb before gzip)
+- @spicyjs/router: a lightweight router for SPA's (~2kb before gzip)
 
 ## Why
 
