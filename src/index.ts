@@ -1,30 +1,23 @@
-// import { DumbThing } from "./globals";
-import type { TagName, TagNameMap } from "./types";
-import type {
-	SpicyElementParams,
-	ElementChild,
-	ElementProxyFunctions,
-} from "./types";
-export type Props<T extends HTMLElement> = (
-	| SpicyElementParams<T>
-	| ElementChild
-	| ElementChild[]
-	| undefined
-	| false
-)[];
+import type { Props, TagName, TagNameMap } from "./types";
+import type { SpicyElementParams, ElementProxyFunctions } from "./types";
+
+const HANDLER_KEY = "handler";
+
+export type { SpicyElementParams };
+
 type Prop<T extends HTMLElement> = Props<T>[number];
 const handleElementProps = <T extends HTMLElement>(
 	el: HTMLElement,
 	prop: Prop<T>
 ) => {
-	if (prop instanceof Array) {
+	if (typeof prop === "function") {
+		prop(el as T);
+	} else if (prop instanceof Array) {
 		el.append(...prop);
-	} else if (typeof prop === "string" || typeof prop === "number") {
-		el.append(prop + "");
 	} else if (
 		!(prop instanceof Node) &&
 		typeof prop === "object" &&
-		prop != null
+		prop !== null
 	) {
 		const elementParams = prop as SpicyElementParams<T>;
 		for (const key of Object.keys(elementParams)) {
@@ -33,10 +26,10 @@ const handleElementProps = <T extends HTMLElement>(
 			const value = elementParams[key];
 			if (typeof value === "function") {
 				el.addEventListener(key, value);
-			} else if (typeof value === "object" && "handler" in value) {
+			} else if (typeof value === "object" && HANDLER_KEY in value) {
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				//@ts-ignore
-				el.addEventListener(key, value.handler, value.options);
+				el.addEventListener(key, value[HANDLER_KEY], value.options);
 			} else if (key in el) {
 				if (key === "style") {
 					Object.assign(el.style, value);
@@ -49,16 +42,17 @@ const handleElementProps = <T extends HTMLElement>(
 				el.setAttribute(key, String(value));
 			}
 		}
-	} else if (prop) {
+	} else if (prop || typeof prop === "string") {
 		el.append(prop);
 	}
 };
-function updateElement<T extends HTMLElement>(el: T, ...props: Props<T>) {
+
+const updateElement = <T extends HTMLElement>(el: T, ...props: Props<T>) => {
 	for (const prop of props) {
 		handleElementProps(el, prop);
 	}
 	return el;
-}
+};
 
 const createElement = <T extends TagName>(
 	tagName: T,
@@ -94,10 +88,5 @@ type CreateOrUpdateElement = typeof createOrUpdateElement;
 
 const spicy = new Proxy(createOrUpdateElement, {
 	get: (_, tag) => createSpecificElement(tag as TagName),
-	apply(target, thisArg, args) {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		//@ts-ignore
-		return target.apply(thisArg, args);
-	},
 }) as unknown as CreateOrUpdateElement & ElementProxyFunctions;
 export default spicy;

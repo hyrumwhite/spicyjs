@@ -21,12 +21,15 @@ export type SpicyElementParams<T extends HTMLElement> = Partial<Events> &
 
 export type ElementChild = Node | string;
 
+export type Props<T extends HTMLElement> = (
+	| SpicyElementParams<T>
+	| ElementChild
+	| ElementChild[]
+	| ((el: T) => void)
+	| undefined
+	| false
+)[];
+
 export type ElementProxyFunctions = {
-	[k in keyof Elements]: (
-		...props: (
-			| SpicyElementParams<Elements[k]>
-			| ElementChild
-			| ElementChild[]
-		)[]
-	) => Elements[k];
+	[k in keyof Elements]: (...props: Props<Elements[k]>) => Elements[k];
 };

@@ -37,10 +37,10 @@
 		"test": "vitest"
 	},
 	"devDependencies": {
-		"commit-and-tag-version": "^12.2.0",
-		"typescript": "^5.2.2",
-		"vite": "^5.0.8",
-		"jsdom": "^24.0.0",
-		"vitest": "^1.4.0"
+		"commit-and-tag-version": "^12.6.1",
+		"jsdom": "^27.3.0",
+		"typescript": "npm:@typescript/native-preview",
+		"vite": "^8.0.0-beta.2",
+		"vitest": "^4.0.15"
 	}
 }

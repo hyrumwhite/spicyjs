@@ -1,35 +1,19 @@
-const a = (t, e) => {
-  if (e instanceof Array)
-    t.append(...e);
-  else if (typeof e == "string" || typeof e == "number")
-    t.append(e + "");
-  else if (!(e instanceof Node) && typeof e == "object" && e != null) {
-    const s = e;
-    for (const i of Object.keys(s)) {
-      const n = s[i];
-      typeof n == "function" ? t.addEventListener(i, n) : typeof n == "object" && "handler" in n ? t.addEventListener(i, n.handler, n.options) : i in t ? i === "style" ? Object.assign(t.style, n) : t[i] = n : t.setAttribute(i, String(n));
-    }
-  } else
-    e && t.append(e);
-};
-function c(t, ...e) {
-  for (const s of e)
-    a(t, s);
-  return t;
+var HANDLER_KEY = "handler", handleElementProps = (r, i) => {
+	if (typeof i == "function") i(r);
+	else if (i instanceof Array) r.append(...i);
+	else if (!(i instanceof Node) && typeof i == "object" && i) {
+		let a = i;
+		for (let i of Object.keys(a)) {
+			let o = a[i];
+			typeof o == "function" ? r.addEventListener(i, o) : typeof o == "object" && HANDLER_KEY in o ? r.addEventListener(i, o[HANDLER_KEY], o.options) : i in r ? i === "style" ? Object.assign(r.style, o) : r[i] = o : r.setAttribute(i, String(o));
+		}
+	} else (i || typeof i == "string") && r.append(i);
+}, updateElement = (e, ...i) => {
+	for (let a of i) handleElementProps(e, a);
+	return e;
+}, createElement = (e, ...r) => updateElement(document.createElement(e), ...r), createSpecificElement = (e) => (...r) => createElement(e, ...r);
+function createOrUpdateElement(e, ...r) {
+	return typeof e == "string" ? createElement(e, ...r) : updateElement(e, ...r);
 }
-const f = (t, ...e) => {
-  const s = document.createElement(t);
-  return c(s, ...e);
-}, o = (t) => (...e) => f(t, ...e);
-function r(t, ...e) {
-  return typeof t == "string" ? f(t, ...e) : c(t, ...e);
-}
-const d = new Proxy(r, {
-  get: (t, e) => o(e),
-  apply(t, e, s) {
-    return t.apply(e, s);
-  }
-});
-export {
-  d as default
-};
+var src_default = new Proxy(createOrUpdateElement, { get: (e, r) => createSpecificElement(r) });
+export { src_default as default };

@@ -24,6 +24,24 @@ test("creates a div element with an id, style, attribute, and classname", () => 
 	expect(mydiv.getAttribute("data-testid")).toEqual("attr");
 });
 
+test("creates a div element using a method param to set attributes", () => {
+	const { div } = spicyjs;
+	const mydiv = div(
+		(div) => (div.className = "my-class"),
+		{
+			id: "my-id",
+			style: { color: "blue" },
+			"data-testid": "attr",
+		},
+		"hello world"
+	);
+	expect(mydiv.className).toEqual("my-class");
+	expect(mydiv.id).toEqual("my-id");
+	expect(mydiv.style.color).toEqual("blue");
+	expect(mydiv.textContent).toEqual("hello world");
+	expect(mydiv.getAttribute("data-testid")).toEqual("attr");
+});
+
 test("adds event listeners", () => {
 	const clickhandler = vi.fn();
 	const myEventHandler = vi.fn();
@@ -99,7 +117,6 @@ test("appends elements from arrays", () => {
 		links.map((text) => a(text))
 	);
 	expect(document.body.querySelectorAll("a").length).toEqual(3);
-	console.log(document.body.innerHTML);
 	expect(document.body.querySelectorAll("a")[2].textContent).toEqual("link3");
 });
 test("does not append falsey values", () => {
